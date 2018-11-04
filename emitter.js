@@ -45,9 +45,14 @@ function getEmitter() {
          */
         off: function (event, context) {
             console.info(event, context);
-            let unsabedEvents = [event];
-            for (let currentEvent of Object.keys(eventsForStudents)) {
-                if (currentEvent.startsWith(event + '.')) {
+            let mapIter = eventsForStudents.keys();
+            let unsabedEvents = []; // добавляется ивент, которого может не быть !!!
+            let next = mapIter.next();
+            while (!next.done) {
+                let currentEvent = next.value;
+                next = mapIter.next();
+                // console.info(currentEvent, event);
+                if (currentEvent.startsWith(event + '.') || currentEvent === event) {
                     unsabedEvents.push(currentEvent);
                 }
             }
