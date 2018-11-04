@@ -4,13 +4,15 @@
  * Сделано задание на звездочку
  * Реализованы методы several и through
  */
-const isStar = true;
+const isStar = false;
 
 /**
  * Возвращает новый emitter
  * @returns {Object}
  */
 function getEmitter() {
+    let eventsForStudents = new Map();
+
     return {
 
         /**
@@ -18,26 +20,72 @@ function getEmitter() {
          * @param {String} event
          * @param {Object} context
          * @param {Function} handler
+         * @returns {Object}
          */
         on: function (event, context, handler) {
             console.info(event, context, handler);
+            let student = { name: context, operationForName: handler };
+            if (!(eventsForStudents.has(event))) {
+                let arrayOfStudents = [student];
+                eventsForStudents.set(event, arrayOfStudents);
+            } else {
+                let arrrayOfStudents = eventsForStudents.get(event);
+                arrrayOfStudents.push(student);
+                eventsForStudents.set(event, arrrayOfStudents);
+            }
+
+            return this;
         },
 
         /**
          * Отписаться от события
          * @param {String} event
          * @param {Object} context
+         * @returns {Object}
          */
         off: function (event, context) {
             console.info(event, context);
+            let unsabedEvents = [event];
+            for (let currentEvent of Object.keys(eventsForStudents)) {
+                if (currentEvent.startsWith(event + '.')) {
+                    unsabedEvents.push(currentEvent);
+                }
+            }
+            // console.info(unsabedEvents);
+            for (let currentEvent of unsabedEvents) {
+                let resultArray = eventsForStudents.get(currentEvent).filter(student =>
+                    student.name !== context);
+                eventsForStudents.set(currentEvent, resultArray);
+            } // КХММММ
+
+            return this;
         },
 
         /**
          * Уведомить о событии
          * @param {String} event
+         * @returns {Object}
          */
         emit: function (event) {
-            console.info(event);
+            console.info(eventsForStudents);
+            // slide.funny, затем slide
+            let commandArray = event.split('.');
+            if (commandArray.length > 1) {
+                let temp = commandArray[0];
+                commandArray[0] += ('.' + commandArray[1]);
+                commandArray[1] = temp;
+            }
+            // commandArray.map(value => ) КХММММММММММММММММММММММММ
+            for (let coommand of commandArray) {
+                if (eventsForStudents.has(coommand)) {
+                    // console.info(coommand);
+                    // console.info(eventsForStudents.get(coommand));
+                    eventsForStudents.get(coommand).map(student =>
+                        student.operationForName.call(student.name));
+                }
+            }
+
+            return this;
         },
 
         /**
