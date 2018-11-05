@@ -13,6 +13,22 @@ const isStar = false;
 function getEmitter() {
     let eventsForStudents = new Map();
 
+    function getEvents(event) {
+        let lastIndexOfDot = event.lastIndexOf('.');
+        if (lastIndexOfDot === - 1) {
+            return [event];
+        }
+        let result = [event];
+        let currentEvent = event;
+        while (lastIndexOfDot > -1) {
+            currentEvent = currentEvent.slice(0, lastIndexOfDot);
+            result.push(currentEvent);
+            lastIndexOfDot = currentEvent.lastIndexOf('.');
+        }
+
+        return result;
+    }
+
     return {
 
         /**
@@ -73,19 +89,14 @@ function getEmitter() {
         emit: function (event) {
             console.info(eventsForStudents);
             // slide.funny, затем slide
-            let commandArray = event.split('.');
-            if (commandArray.length > 1) {
-                let temp = commandArray[0];
-                commandArray[0] += ('.' + commandArray[1]);
-                commandArray[1] = temp;
-            }
+            let commandArray = getEvents(event);
             // commandArray.map(value => ) КХММММММММММММММММММММММММ
             console.info(commandArray);
-            for (let i = 0; i < 2 && i < commandArray.length; i++) {
-                if (eventsForStudents.has(commandArray[i])) {
+            for (let command of commandArray) {
+                if (eventsForStudents.has(command)) {
                     // console.info(coommand);
                     // console.info(eventsForStudents.get(coommand));
-                    eventsForStudents.get(commandArray[i]).map(student =>
+                    eventsForStudents.get(command).map(student =>
                         student.operationForName.call(student.name));
                 }
             }
