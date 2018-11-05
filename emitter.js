@@ -82,7 +82,7 @@ function getEmitter() {
             }
             // commandArray.map(value => ) КХММММММММММММММММММММММММ
             console.info(commandArray);
-            for (let i = 0; i < 2 || i < commandArray.length; i++) {
+            for (let i = 0; i < 2 && i < commandArray.length; i++) {
                 if (eventsForStudents.has(commandArray[i])) { // ЕШ
                     // console.info(coommand);
                     // console.info(eventsForStudents.get(coommand));
