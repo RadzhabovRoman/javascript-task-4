@@ -25,10 +25,13 @@ function getEmitter() {
         on: function (event, context, handler) {
             console.info(event, context, handler);
             let student = { name: context, operationForName: handler };
-            if (!(eventsForStudents.has(event))) {
+            if (!eventsForStudents.has(event)) {
                 let arrayOfStudents = [student];
                 eventsForStudents.set(event, arrayOfStudents);
-            } else {
+
+                return this;
+            }
+            if (event) { // мало ли что
                 let arrrayOfStudents = eventsForStudents.get(event);
                 arrrayOfStudents.push(student);
                 eventsForStudents.set(event, arrrayOfStudents);
@@ -46,7 +49,7 @@ function getEmitter() {
         off: function (event, context) {
             console.info(event, context);
             let mapIter = eventsForStudents.keys();
-            let unsabedEvents = []; // добавляется ивент, которого может не быть !!!
+            let unsabedEvents = []; // добавляется ивент, которого может не быть !!! - fixed!
             let next = mapIter.next();
             while (!next.done) {
                 let currentEvent = next.value;
@@ -74,18 +77,21 @@ function getEmitter() {
         emit: function (event) {
             console.info(eventsForStudents);
             // slide.funny, затем slide
-            let commandArray = event.split('.');
-            if (commandArray.length > 1) {
-                let temp = commandArray[0];
-                commandArray[0] += ('.' + commandArray[1]);
-                commandArray[1] = temp;
+            let commandArray = [];
+            if (eventsForStudents.has(event)) {
+                commandArray.push(event);
+            }
+            let beforePoint = event.split('.')[0];
+            if (eventsForStudents.has(beforePoint) && event !== beforePoint) {
+                commandArray.push(beforePoint);
             }
             // commandArray.map(value => ) КХММММММММММММММММММММММММ
+            console.info(commandArray);
             for (let coommand of commandArray) {
-                if (eventsForStudents.has(coommand)) {
+                if (eventsForStudents.has(coommand)) { // ЕЩЕ ЧЕК
                     // console.info(coommand);
                     // console.info(eventsForStudents.get(coommand));
-                    eventsForStudents.get(coommand).map(student =>
+                    eventsForStudents.get(coommand).forEach(student =>
                         student.operationForName.call(student.name));
                 }
             }
