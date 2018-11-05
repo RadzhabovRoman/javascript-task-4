@@ -29,9 +29,8 @@ function getEmitter() {
                 let arrayOfStudents = [student];
                 eventsForStudents.set(event, arrayOfStudents);
             } else {
-                let arrrayOfStudents = eventsForStudents.get(event);
-                arrrayOfStudents.push(student);
-                eventsForStudents.set(event, arrrayOfStudents);
+                eventsForStudents.get(event).push(student);
+                // eventsForStudents.set(event, arrrayOfStudents);
             }
 
             return this;
@@ -86,11 +85,8 @@ function getEmitter() {
                 if (eventsForStudents.has(commandArray[i])) {
                     // console.info(coommand);
                     // console.info(eventsForStudents.get(coommand));
-                    let res = eventsForStudents.get(commandArray[i]);
-                    res.map(student =>
+                    eventsForStudents.get(commandArray[i]).map(student =>
                         student.operationForName.call(student.name));
-                    // console.info(res, 'XXXXXXXXXX');
-                    eventsForStudents.set(commandArray[i], res);
                 }
             }
 
