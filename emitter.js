@@ -50,11 +50,11 @@ function getEmitter() {
             let next = mapIter.next();
             while (!next.done) {
                 let currentEvent = next.value;
-                next = mapIter.next();
                 // console.info(currentEvent, event);
                 if (currentEvent.startsWith(event + '.') || currentEvent === event) {
                     unsabedEvents.push(currentEvent);
                 }
+                next = mapIter.next();
             }
             // console.info(unsabedEvents);
             for (let currentEvent of unsabedEvents) {
@@ -83,7 +83,8 @@ function getEmitter() {
             // commandArray.map(value => ) КХММММММММММММММММММММММММ
             console.info(commandArray);
             for (let i = 0; i < 2 && i < commandArray.length; i++) {
-                if (eventsForStudents.has(commandArray[i])) { // ЕШ
+                if (eventsForStudents.has(commandArray[i]) &&
+                    eventsForStudents.get(commandArray[i]).length > 0) {
                     // console.info(coommand);
                     // console.info(eventsForStudents.get(coommand));
                     eventsForStudents.get(commandArray[i]).map(student =>
