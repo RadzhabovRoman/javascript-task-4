@@ -82,11 +82,11 @@ function getEmitter() {
             }
             // commandArray.map(value => ) КХММММММММММММММММММММММММ
             console.info(commandArray);
-            for (let coommand of commandArray) {
-                if (eventsForStudents.has(coommand)) { // ЕШ
+            for (let i = 0; i < 2 || i < commandArray.length; i++) {
+                if (eventsForStudents.has(commandArray[i])) { // ЕШ
                     // console.info(coommand);
                     // console.info(eventsForStudents.get(coommand));
-                    eventsForStudents.get(coommand).map(student =>
+                    eventsForStudents.get(commandArray[i]).map(student =>
                         student.operationForName.call(student.name));
                 }
             }
