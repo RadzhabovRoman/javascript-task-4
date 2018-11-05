@@ -28,10 +28,7 @@ function getEmitter() {
             if (!eventsForStudents.has(event)) {
                 let arrayOfStudents = [student];
                 eventsForStudents.set(event, arrayOfStudents);
-
-                return this;
-            }
-            if (event) { // мало ли что
+            } else { // КХм ДА
                 let arrrayOfStudents = eventsForStudents.get(event);
                 arrrayOfStudents.push(student);
                 eventsForStudents.set(event, arrrayOfStudents);
