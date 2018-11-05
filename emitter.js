@@ -28,7 +28,7 @@ function getEmitter() {
             if (!eventsForStudents.has(event)) {
                 let arrayOfStudents = [student];
                 eventsForStudents.set(event, arrayOfStudents);
-            } else { // КХм ДА
+            } else {
                 let arrrayOfStudents = eventsForStudents.get(event);
                 arrrayOfStudents.push(student);
                 eventsForStudents.set(event, arrrayOfStudents);
@@ -74,21 +74,19 @@ function getEmitter() {
         emit: function (event) {
             console.info(eventsForStudents);
             // slide.funny, затем slide
-            let commandArray = [];
-            if (eventsForStudents.has(event)) {
-                commandArray.push(event);
-            }
-            let beforePoint = event.split('.')[0];
-            if (eventsForStudents.has(beforePoint) && event !== beforePoint) {
-                commandArray.push(beforePoint);
+            let commandArray = event.split('.');
+            if (commandArray.length > 1) {
+                let temp = commandArray[0];
+                commandArray[0] += ('.' + commandArray[1]);
+                commandArray[1] = temp;
             }
             // commandArray.map(value => ) КХММММММММММММММММММММММММ
             console.info(commandArray);
             for (let coommand of commandArray) {
-                if (eventsForStudents.has(coommand)) { // ЕЩЕ ЧЕК
+                if (eventsForStudents.has(coommand)) {
                     // console.info(coommand);
                     // console.info(eventsForStudents.get(coommand));
-                    eventsForStudents.get(coommand).forEach(student =>
+                    eventsForStudents.get(coommand).Map(student =>
                         student.operationForName.call(student.name));
                 }
             }
