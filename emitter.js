@@ -74,19 +74,21 @@ function getEmitter() {
         emit: function (event) {
             console.info(eventsForStudents);
             // slide.funny, затем slide
-            let commandArray = event.split('.');
-            if (commandArray.length > 1) {
-                let temp = commandArray[0];
-                commandArray[0] += ('.' + commandArray[1]);
-                commandArray[1] = temp;
+            let commandArray = [];
+            if (eventsForStudents.has(event)) {
+                commandArray.push(event);
+            }
+            let beforePoint = event.split('.')[0];
+            if (eventsForStudents.has(beforePoint) && event !== beforePoint) {
+                commandArray.push(beforePoint);
             }
             // commandArray.map(value => ) КХММММММММММММММММММММММММ
             console.info(commandArray);
             for (let coommand of commandArray) {
-                if (eventsForStudents.has(coommand)) {
+                if (eventsForStudents.has(coommand)) { // ЕШ
                     // console.info(coommand);
                     // console.info(eventsForStudents.get(coommand));
-                    eventsForStudents.get(coommand).Map(student =>
+                    eventsForStudents.get(coommand).map(student =>
                         student.operationForName.call(student.name));
                 }
             }
