@@ -74,13 +74,11 @@ function getEmitter() {
         emit: function (event) {
             console.info(eventsForStudents);
             // slide.funny, затем slide
-            let commandArray = [];
-            if (eventsForStudents.has(event)) {
-                commandArray.push(event);
-            }
-            let beforePoint = event.split('.')[0];
-            if (eventsForStudents.has(beforePoint) && event !== beforePoint) {
-                commandArray.push(beforePoint);
+            let commandArray = event.split('.');
+            if (commandArray.length > 1) {
+                let temp = commandArray[0];
+                commandArray[0] += ('.' + commandArray[1]);
+                commandArray[1] = temp;
             }
             // commandArray.map(value => ) КХММММММММММММММММММММММММ
             console.info(commandArray);
