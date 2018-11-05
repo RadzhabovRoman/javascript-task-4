@@ -83,12 +83,14 @@ function getEmitter() {
             // commandArray.map(value => ) КХММММММММММММММММММММММММ
             console.info(commandArray);
             for (let i = 0; i < 2 && i < commandArray.length; i++) {
-                if (eventsForStudents.has(commandArray[i]) &&
-                    eventsForStudents.get(commandArray[i]).length > 0) {
+                if (eventsForStudents.has(commandArray[i])) {
                     // console.info(coommand);
                     // console.info(eventsForStudents.get(coommand));
-                    eventsForStudents.get(commandArray[i]).map(student =>
+                    let res = eventsForStudents.get(commandArray[i]);
+                    res.map(student =>
                         student.operationForName.call(student.name));
+                    // console.info(res, 'XXXXXXXXXX');
+                    eventsForStudents.set(commandArray[i], res);
                 }
             }
 
